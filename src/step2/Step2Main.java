@@ -1,6 +1,6 @@
 package step2;
 
-public class Main {
+public class Step2Main {
     public static void main(String[] args) {
 
         FileInterface fileInterface = new FileInterface();

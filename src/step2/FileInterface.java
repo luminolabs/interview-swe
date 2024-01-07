@@ -54,7 +54,7 @@ public class FileInterface {
         amountString = amountString.replace("$", "").replace(",", "");
         try {
             float amountFloat = Float.parseFloat(amountString); // Convert to float
-            return (int) (amountFloat * 100); // Convert dollars to cents
+            return (int) (amountFloat); // Convert dollars to cents
         } catch (NumberFormatException e) {
             System.out.println("Invalid amount format: " + amountString);
             return 0;

@@ -1,8 +1,6 @@
 package step1;
 
-import step1.FileInterface;
-
-public class Main {
+public class Step1Main {
     public static void main(String[] args) {
 
         FileInterface fileInterface = new FileInterface();
