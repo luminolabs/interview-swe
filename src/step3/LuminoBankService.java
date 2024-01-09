@@ -1,4 +1,4 @@
-package Step3;
+package step3;
 
 import java.util.ArrayList;
 import java.util.HashMap;
