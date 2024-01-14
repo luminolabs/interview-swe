@@ -17,9 +17,10 @@ public class FileInterface {
             String line = reader.readLine(); // Read and discard the header line
             while ((line = reader.readLine()) != null) {
                 String[] tokens = line.split(",");
-                if (tokens.length < 7) {
+                if (tokens.length < 6) {
                     continue; // Skip invalid lines
                 }
+
                 String time = tokens[0].trim();
                 String account = tokens[1].trim();
                 String creditString = tokens[2].trim();
