@@ -17,7 +17,7 @@ public class FileInterface {
             String line = reader.readLine(); // Read and discard the header line
             while ((line = reader.readLine()) != null) {
                 String[] tokens = line.split(",");
-                if (tokens.length < 6) {
+                if (tokens.length < 5) {
                     continue; // Skip invalid lines
                 }
 
@@ -25,6 +25,7 @@ public class FileInterface {
                 String account = tokens[1].trim();
                 String creditString = tokens[2].trim();
                 String debitString = tokens[3].trim();
+                String type = tokens[4].trim();
 
                 int amount = 0;
                 String action = "";
@@ -36,10 +37,10 @@ public class FileInterface {
                     action = "withdraw";
                 }
 
-                System.out.println(time + " " + account + " " + action + " " + amount);
+                System.out.println(time + " " + account + " " + action + " " + amount + " " + type);
                 switch (action.toLowerCase()) {
                     case "deposit":
-                        bankService.depositCash(time, account, amount);
+                        bankService.depositCash(time, account, amount, type);
                         break;
                     case "withdraw":
                         bankService.withdrawCash(time, account, amount);

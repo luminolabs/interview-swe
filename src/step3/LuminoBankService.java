@@ -33,16 +33,16 @@ public class LuminoBankService {
         return accountBalances.getOrDefault(accountId, 0);
     }
 
-    public void depositCash(String time, String account, int amount) {
+    public void depositCash(String time, String account, int amount, String status, String type) {
         int currentBalance = getCurrentBalance(account);
         currentBalance += amount;
         accountBalances.put(account, currentBalance);
 
-        Transaction transaction = new Transaction(time, account, amount, 0, "SUCCESS", "ATM", currentBalance);
+        Transaction transaction = new Transaction(time, account, amount, 0, status, type, currentBalance);
         accountTransactions.computeIfAbsent(account, k -> new ArrayList<>()).add(transaction);
     }
 
-    public boolean withdrawCash(String time, String account, int amount) {
+    public boolean withdrawCash(String time, String account, int amount, String type) {
         int currentBalance = getCurrentBalance(account);
         String status;
         if(currentBalance >= amount) {
@@ -53,7 +53,7 @@ public class LuminoBankService {
             status = "FAILED";
         }
 
-        Transaction transaction = new Transaction(time, account, 0, amount, status, "ATM", currentBalance);
+        Transaction transaction = new Transaction(time, account, 0, amount, status, type, currentBalance);
         accountTransactions.computeIfAbsent(account, k -> new ArrayList<>()).add(transaction);
         return status.equals("SUCCESS");
     }
