@@ -40,7 +40,8 @@ public class FileInterface {
                 System.out.println(time + " " + account + " " + action + " " + amount);
 
                 if (type.equals("INSTANT TRANSFER") && account.startsWith("EXTER")) {
-                    bankService.externalTransfer(time, account, amount, type);
+                    String luminoAccount = account.replace("EXTER", "");
+                    bankService.processExternalTransfer(time, luminoAccount, amount, type);
                 } else {
                     switch (action.toLowerCase()) {
                         case "deposit":
@@ -84,9 +85,9 @@ public class FileInterface {
 
                         for (LuminoBankService.Transaction t : sortedTransactions) {
                             try {
-                                writer.write(String.format("%s,%s,$%d,$%d,%s,%s,$%d",
+                                writer.write(String.format("%s,%s,$%d,$%.2f,%s,%s,$%.2f",
                                         t.time, t.account, t.credit, t.debit, t.status, t.type, t.balance));
-                                System.out.println("printing writing to file" + String.format("%s,%s,$%d,$%d,%s,%s,$%d",
+                                System.out.println("printing writing to file" + String.format("%s,%s,$%d,$%.2f,%s,%s,$%.2f",
                                         t.time, t.account, t.credit, t.debit, t.status, t.type, t.balance));
                             } catch (IOException e) {
                                 throw new RuntimeException(e);

@@ -10,12 +10,12 @@ public class LuminoBankService {
         String time;
         String account;
         int credit;
-        int debit;
+        double debit;
         String status;
         String type;
-        int balance;
+        double balance;
 
-        public Transaction(String time, String account, int credit, int debit, String status, String type, int balance) {
+        public Transaction(String time, String account, int credit, double debit, String status, String type, double balance) {
             this.time = time;
             this.account = account;
             this.credit = credit;
@@ -26,15 +26,15 @@ public class LuminoBankService {
         }
     }
 
-    Map<String, Integer> accountBalances = new HashMap<>();
+    Map<String, Double> accountBalances = new HashMap<>();
     Map<String, List<Transaction>> accountTransactions = new HashMap<>();
 
-    public int getCurrentBalance(String accountId) {
-        return accountBalances.getOrDefault(accountId, 0);
+    public double getCurrentBalance(String accountId) {
+        return accountBalances.getOrDefault(accountId, 0.0);
     }
 
     public void depositCash(String time, String account, int amount, String status, String type) {
-        int currentBalance = getCurrentBalance(account);
+        double currentBalance = getCurrentBalance(account);
         currentBalance += amount;
         accountBalances.put(account, currentBalance);
 
@@ -43,7 +43,7 @@ public class LuminoBankService {
     }
 
     public boolean withdrawCash(String time, String account, int amount, String type) {
-        int currentBalance = getCurrentBalance(account);
+        double currentBalance = getCurrentBalance(account);
         String status;
         if(currentBalance >= amount) {
             currentBalance -= amount;
@@ -58,19 +58,16 @@ public class LuminoBankService {
         return status.equals("SUCCESS");
     }
 
-    public void externalTransfer(String time, String account, int amount, String type) {
-        boolean isExternal = account.startsWith("EXTER");
-        if (isExternal) {
-            // External account transfer logic
-            chargeFee(time, account, 1); // Charge $0.01 fee
-        } else {
-            // Handle as a regular internal transfer
-            withdrawCash(time, account, amount, type);
+    public boolean processExternalTransfer(String time, String luminoAccount, int amount, String type) {
+        boolean isSuccess = withdrawCash(time, luminoAccount, amount, type);
+        if (isSuccess) {
+            chargeFee(time, luminoAccount, 0.01); // Charge $0.01 fee
         }
+        return isSuccess;
     }
 
-    private void chargeFee(String time, String account, int feeAmount) {
-        int currentBalance = getCurrentBalance(account);
+    private void chargeFee(String time, String account, double feeAmount) {
+        double currentBalance = getCurrentBalance(account);
         currentBalance -= feeAmount; // Deduct fee
         accountBalances.put(account, currentBalance);
 
