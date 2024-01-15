@@ -1,0 +1,8 @@
+time,account,action,amount
+2020-08-01 0:00:00,APPLE1111,create account,
+2020-08-01 1:00:00,APPLE1111,deposit,$10
+2020-08-01 2:00:00,APPLE2222,create account,
+2020-08-01 3:00:00,APPLE1111,withdraw,$5
+2020-08-01 4:00:00,APPLE2222,deposit,$10
+2020-08-01 4:00:00,APPLE3333,deposit,$15
+2020-08-01 4:00:00,APPLE3333,withdraw,$2
